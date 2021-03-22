@@ -1,0 +1,10 @@
+{
+  "production": {
+    "use_env_variable": "MONGODB_URI",
+    "dialectOptions": {
+      "ssl": {
+        "rejectUnauthorized": false
+      }
+    }
+  }
+}
