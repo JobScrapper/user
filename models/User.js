@@ -16,6 +16,24 @@ class User {
   static deleteRow(row) {
     return getDatabase().collection('users').deleteOne(row);
   }
+
+  static updateData(id, pdf, image, banner) {
+    return getDatabase().collection('users').findOneAndUpdate(
+      {
+        _id: ObjectId(id),
+      },
+      {
+        $set: {
+          cvFile: !pdf ? 'https://image.flaticon.com/icons/png/512/337/337946.png' : pdf,
+          photoProfile: !image ? 'https://www.freeiconspng.com/uploads/profile-icon-9.png' : image,
+          bannerProfile: !banner ? 'https://www.freeiconspng.com/uploads/profile-icon-9.png' : banner
+        }
+      },
+      {
+        returnOriginal: false
+      },
+    )
+  }
 }
 
 module.exports = User;
