@@ -4,7 +4,7 @@ let database = null;
 
 async function connect() {
   try {
-    const uri = 'mongodb+srv://stanly-admin:Sembilan99@jobscrapper.xqsks.mongodb.net/jobScrapper?retryWrites=true&w=majority';
+    const uri = process.env.MONGODB_URI || 'mongodb://localhost:27017';
     const client = new MongoClient(uri, { useUnifiedTopology: true });
     await client.connect();
 
