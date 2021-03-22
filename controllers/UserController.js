@@ -40,29 +40,33 @@ class UserController {
       validateInput(email, password, "default");
       console.log(req.body);
       const user = await User.findByEmail(email);
-      if (!user) throw {
-        name: 'CustomError',
-        msg: 'Email or password is incorrect!',
-        status: 400
-      }
-      const comparedPassword = comparePassword(password, user.password);
-      if (!comparedPassword) throw {
+      if (!user) {
+        throw {
           name: 'CustomError',
           msg: 'Email or password is incorrect!',
           status: 400
         }
-      
-      const access_token = generateToken({
-        id: user.id,
-        username: user.username,
-        email: user.email
-      })
-      console.log(access_token);
-      res.status(200).json({
-        access_token: access_token,
-        email: user.email,
-        username: user.username
-      })
+      } else {
+        const comparedPassword = comparePassword(password, user.password);
+        if (!comparedPassword) {
+          throw {
+            name: 'CustomError',
+            msg: 'Email or password is incorrect!',
+            status: 400
+          }
+        } else {
+          const access_token = generateToken({
+            id: user.id,
+            username: user.username,
+            email: user.email
+          })
+          res.status(200).json({
+            access_token: access_token,
+            email: user.email,
+            username: user.username
+          })
+        }
+      }
     } catch(err) {
       next(err);
     }
