@@ -1,25 +1,38 @@
-const User = require('../models/User');
-const { hashPassword, comparePassword } = require('../helpers/bcrypt');
-const { generateToken } = require('../helpers/jwt');
-const validateInput = require('../helpers/registerValidation');
+const User = require("../models/User");
+const { hashPassword, comparePassword } = require("../helpers/bcrypt");
+const { generateToken } = require("../helpers/jwt");
+const validateInput = require("../helpers/registerValidation");
+const nodemailer = require("nodemailer");
 
 class UserController {
   static async register(req, res, next) {
     let { username, email, password } = req.body;
+
+    var transporter = nodemailer.createTransport({
+      host: "smtp.mailtrap.io",
+      port: 2525,
+      auth: {
+        user: "cd93ec98e85139",
+        pass: "09277ea5ff78b7"
+      }
+    });
+
     try {
       validateInput(email, password, username);
       const emailInput = await User.findByEmail(email);
       const usernameInput = await User.findByUsername(username);
-      if (emailInput) throw {
-        name: 'CustomError',
-        msg: 'Email is already registered!',
-        status: 400
-      }
-      if (usernameInput) throw {
-        name: 'CustomError',
-        msg: 'Username is already registered!',
-        status: 400 
-      }
+      if (emailInput)
+        throw {
+          name: "CustomError",
+          msg: "Email is already registered!",
+          status: 400,
+        };
+      if (usernameInput)
+        throw {
+          name: "CustomError",
+          msg: "Username is already registered!",
+          status: 400,
+        };
       password = hashPassword(password);
       const newUser = await User.register({ username, email, password });
       const user = newUser.ops[0];
@@ -27,9 +40,35 @@ class UserController {
       res.status(201).json({
         _id: user._id,
         username: user.username,
-        email: user.email
-      })
-    } catch(err) {
+        email: user.email,
+      });
+      console.log(user.email, '<<<<<<<<<<<<<<<<<<<<');
+      const info = await transporter.sendMail({
+        from: '"JobScrapper" <jobscrapper@mail.com>', // sender address
+        to: user.email, // list of receivers
+        subject: "Register Success", // Subject line
+        html: `
+        <div>
+          <h1 style="color: #F05454; text-align: center; margin: 20px 0;    background-color: #222831;
+            padding: 10px;border-radius: 20px;">JobScrapper</h1>
+          <p style="text-align: center">congratulations, your account has been successfully registered with Job Scrapper</p>
+          <p style="text-align: center;margin-top: 40px;"><a href="https://jobscrapper.vercel.app/login" style="
+          text-decoration: none;
+          color: #fff;
+          background-color: #F05454;
+          padding: 10px 20px;
+          border-radius: 20px;
+          ">Login</a></p>
+        </div>`, // html body
+      });
+
+      console.log("Message sent: %s", info.messageId);
+      // Message sent: <b658f8ca-6296-ccf4-8306-87d57a0b4321@example.com>
+    
+      // Preview only available when sending through an Ethereal account
+      console.log("Preview URL: %s", nodemailer.getTestMessageUrl(info));
+      // Preview URL: https://ethereal.email/message/WaQKMgKddxQDoou...
+    } catch (err) {
       next(err);
     }
   }
