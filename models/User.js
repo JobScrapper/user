@@ -1,4 +1,5 @@
 const { getDatabase } = require('../config/mongodb');
+const { ObjectID } = require('mongodb')
 
 class User {
   static register(user) {
@@ -20,7 +21,7 @@ class User {
   static updateData(id, pdf, image, banner) {
     return getDatabase().collection('users').findOneAndUpdate(
       {
-        _id: ObjectId(id),
+        _id: ObjectID(id),
       },
       {
         $set: {
