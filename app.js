@@ -16,7 +16,7 @@ app.use(express.json());
 
 connect()
 .then(async (db) => {
-  console.log('MongoDB successfully connected!!');
+  console.log('MongoDB successfully connected!!!');
 
     app.use(router);
     app.use(errorHandler);
