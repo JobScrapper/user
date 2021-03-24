@@ -133,8 +133,8 @@ class UserController {
   static async addJobToUser(req, res) {
     try {
       const username = req.params.username;
-      const { id, title, type, company, location, createdAt, company_photo, source_logo } = req.body;
-      const data = await User.addJob(username, id, title, type, company, location, createdAt, company_photo, source_logo);
+      const { id, title, type, company, location, createdAt, company_photo, source_logo, salary } = req.body;
+      const data = await User.addJob(username, id, title, type, company, location, createdAt, company_photo, source_logo, salary);
       res.status(200).json(data); 
     } catch(err) {
       console.log(err);

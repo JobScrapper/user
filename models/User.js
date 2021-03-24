@@ -69,7 +69,7 @@ class User {
       },
     )
   }
-  static addJob(username, id, title, type, company, location, createdAt, company_photo, source_logo) {
+  static addJob(username, id, title, type, company, location, createdAt, company_photo, source_logo, salary) {
     return getDatabase().collection('users').update(
       { username },
       {
@@ -82,7 +82,8 @@ class User {
             location,
             createdAt,
             company_photo,
-            source_logo
+            source_logo,
+            salary
           }
         }
       }
