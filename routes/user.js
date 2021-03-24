@@ -3,8 +3,9 @@ const express = require('express');
 const router = express.Router();
 
 const UserController = require('../controllers/UserController');
-const UploadController = require('../controllers/uploadFile')
+const UploadController = require('../controllers/uploadFile');
 
+router.delete('/:username', UserController.deleteJobFromUser);
 router.post('/:username', UserController.addJobToUser);
 router.get('/:username', UserController.getUserByUsername);
 router.post('/register', UserController.register);

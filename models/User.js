@@ -89,6 +89,19 @@ class User {
       }
     )
   }
+
+  static deleteJob(username, id) {
+    return getDatabase().collection('users').update(
+      { username },
+      {
+        $pull: {
+          jobsApplied: {
+            id
+          }
+        }
+      }
+    )
+  }
 }
 
 module.exports = User;

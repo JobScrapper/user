@@ -140,6 +140,16 @@ class UserController {
       console.log(err);
     }
   }
+  static async deleteJobFromUser(req, res) {
+    try {
+      const username = req.params.username;
+      const { id } = req.body;
+      const data = await User.deleteJob(username, id);
+      res.status(200).json(data);
+    } catch(err) {
+      console.log(err);
+    }
+  }
 }
 
 module.exports = UserController;
