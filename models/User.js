@@ -17,13 +17,13 @@ class User {
   static deleteRow(row) {
     return getDatabase().collection('users').deleteOne(row);
   }
-  static updateUser(id, number, location, experience) {
+  static updateUser(id, phoneNumber, location, experience) {
     return getDatabase().collection('users').findOneAndUpdate(
       {
         _id: ObjectID(id)
       },
       {
-        $set: { number, location, experience }
+        $set: { phoneNumber, location, experience }
       },
       {
         returnOriginal: false
