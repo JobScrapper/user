@@ -110,6 +110,16 @@ class UserController {
       next(err);
     }
   }
+  static async updateUser(req, res) {
+    try {
+      let id = req.params.id
+      const { phoneNumber, location, experience } = req.body
+      const data = await User.updateUser(id, phoneNumber, location, experience)
+      res.status(200).json(data.value)
+    } catch (err) {
+      res.status(500).json(err)
+    }
+  }
 }
 
 module.exports = UserController;
