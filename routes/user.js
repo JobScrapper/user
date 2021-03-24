@@ -5,6 +5,7 @@ const router = express.Router();
 const UserController = require('../controllers/UserController');
 const UploadController = require('../controllers/uploadFile')
 
+router.get('/:username', UserController.getUserByUsername);
 router.post('/register', UserController.register);
 router.post('/login', UserController.login);
 router.put('/updateImage/:id', UploadController.uploadImage);

@@ -110,6 +110,16 @@ class UserController {
       next(err);
     }
   }
+  static async getUserByUsername(req, res) {
+    try {
+      let username = req.params.username;
+      const data = await User.findByUsername(username);
+      console.log(data);
+      res.status(200).json(data);
+    } catch(err) {
+      res.status(500).json(err);
+    }
+  }
   static async updateUser(req, res) {
     try {
       let id = req.params.id
