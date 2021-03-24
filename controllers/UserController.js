@@ -75,6 +75,7 @@ class UserController {
 
   static async login(req, res, next) {
     const { email, password } = req.body;
+    console.log(req.body);
     try {
       validateInput(email, password, "default");
       console.log(req.body);

@@ -7,6 +7,7 @@ class User {
   }
 
   static findByEmail(email) {
+    console.log(email);
     return getDatabase().collection('users').findOne({ email })
   }
 
