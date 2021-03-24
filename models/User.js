@@ -69,6 +69,25 @@ class User {
       },
     )
   }
+  static addJob(username, id, title, type, company, location, createdAt, company_photo, source_logo) {
+    return getDatabase().collection('users').update(
+      { username },
+      {
+        $push: {
+          jobsApplied: {
+            id,
+            title,
+            type,
+            company,
+            location,
+            createdAt,
+            company_photo,
+            source_logo
+          }
+        }
+      }
+    )
+  }
 }
 
 module.exports = User;
