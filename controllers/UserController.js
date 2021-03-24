@@ -130,6 +130,26 @@ class UserController {
       res.status(500).json(err)
     }
   }
+  static async addJobToUser(req, res) {
+    try {
+      const username = req.params.username;
+      const { id, title, type, company, location, createdAt, company_photo, source_logo, salary } = req.body;
+      const data = await User.addJob(username, id, title, type, company, location, createdAt, company_photo, source_logo, salary);
+      res.status(200).json(data); 
+    } catch(err) {
+      console.log(err);
+    }
+  }
+  static async deleteJobFromUser(req, res) {
+    try {
+      const username = req.params.username;
+      const { id } = req.body;
+      const data = await User.deleteJob(username, id);
+      res.status(200).json(data);
+    } catch(err) {
+      console.log(err);
+    }
+  }
 }
 
 module.exports = UserController;

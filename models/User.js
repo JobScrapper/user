@@ -69,6 +69,39 @@ class User {
       },
     )
   }
+  static addJob(username, id, title, type, company, location, createdAt, company_photo, source_logo, salary) {
+    return getDatabase().collection('users').update(
+      { username },
+      {
+        $push: {
+          jobsApplied: {
+            id,
+            title,
+            type,
+            company,
+            location,
+            createdAt,
+            company_photo,
+            source_logo,
+            salary
+          }
+        }
+      }
+    )
+  }
+
+  static deleteJob(username, id) {
+    return getDatabase().collection('users').update(
+      { username },
+      {
+        $pull: {
+          jobsApplied: {
+            id
+          }
+        }
+      }
+    )
+  }
 }
 
 module.exports = User;
